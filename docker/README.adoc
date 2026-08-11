@@ -7,10 +7,10 @@
 
 
 .Tasks:
-* (10) link:./runconf/README.md[Run options]
-* (30) link:./gpine/README.md[GPine]
-* (30) link:./ping-pong/README.md[Ping pong]
-* (30) link:./standalone/README.md[Standalone binary]
+* (10) https://github.com/devtools-course/task-docker/tree/main/docker/runconf/README.md[Run options]
+* (30) https://github.com/devtools-course/task-docker/tree/main/docker/gpine/README.md[GPine]
+* (30) https://github.com/devtools-course/task-docker/tree/main/docker/ping-pong/README.md[Ping pong]
+* (30) https://github.com/devtools-course/task-docker/tree/main/docker/standalone/README.md[Standalone binary]
 
 == Copyright
 
