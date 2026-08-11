@@ -5,6 +5,7 @@
 > Branch: `docker` +
 > Fenrir ID: `docker`
 
+WARNING: Tests require update!!!
 
 .Tasks:
 * (10) https://github.com/devtools-course/task-docker/tree/main/docker/runconf/README.md[Run options]
