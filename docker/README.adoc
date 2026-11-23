@@ -57,7 +57,9 @@ Subdirectory: `gpine`
 
 You have to create a miniature "alpine-like" image from the `main.go` file
 
-TIP: To build a standalone binary from Go sources, use `CGO_ENABLED=0 GOOS=linux go build -o _OUT_ _FROM_`
+TIP: To build a standalone binary from Go sources, use `CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o _OUT_ _FROM_`
+
+NOTE: Use Go 1.27
 
 The resulting binary implements these utilities:
 
@@ -94,7 +96,7 @@ Where `gsh` is a custom shell. It uses `GPATH` instead of `PATH` with a semicolo
 
 `docker run --rm -it gpine:latest` must open a `gsh` session.
 
-IMPORTANT: The image size must be less than 6.5 MB.
+CAUTION: The image size must be less than 15 MB.
 
 == Ping pong (30 points)
 
@@ -123,6 +125,7 @@ The volume must be mounted at `/data`
 North::
 The container's `7676` port must be forwarded to the host's `9999` port
 
+CAUTION: The images size must be less than 10 MB.
 
 == Multiplatform image (30 points)
 
@@ -138,7 +141,7 @@ The image must support these platforms:
 
 Size limits:
 
-* Java \=> `30MB`
+* Java \=> `80MB`
 * C++ \=> `0.5MB`
 
 Upload your image to the GitLab Container Registry.
