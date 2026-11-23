@@ -3,15 +3,161 @@
 :icons: font
 
 > Branch: `docker` +
-> Fenrir ID: `docker`
+> Fenrir ID: `docker` +
+> Points: `100`
 
-WARNING: Tests require update!!!
 
-.Tasks:
-* (10) https://github.com/devtools-course/task-docker/tree/main/docker/runconf/README.md[Run options]
-* (30) https://github.com/devtools-course/task-docker/tree/main/docker/gpine/README.md[GPine]
-* (30) https://github.com/devtools-course/task-docker/tree/main/docker/ping-pong/README.md[Ping pong]
-* (30) https://github.com/devtools-course/task-docker/tree/main/docker/standalone/README.md[Standalone binary]
+== Task submission
+
+Put all the systemd unit files in the `docker` directory:
+
+[,text,subs="+macros"]
+----
+icon:folder[] ...
+├─ icon:folder[] docker
+│  ├─ icon:folder[] gpine
+│  │  ├─ ...
+│  │  └─ icon:file-text[] Dockerfile
+│  ├─ icon:folder[] ping-pong
+│  │  ├─ ...
+│  │  └─ icon:file-text[] Dockerfile
+│  ├─ icon:folder[] runconf
+│  │  ├─ ...
+│  │  └─ icon:file-text[] solution.properties
+│  └─ icon:folder[] multi
+│     ├─ ...
+│     └─ icon:file-text[] Dockerfile
+└─ icon:folder[] .git
+----
+
+== Run options (10 points)
+
+Subdirectory: `runconf`
+
+An image `runconf` is built from `Dockerfile` with the `runner` file as the entry point.
+
+Add `docker run` commands to the `solution.properties` file:
+
+* `fst`  --  Run the image with the default settings
+* `snd`  --  Run the image with such a configuration that the output is `IN: nfa ast`
+* `trd`  --  Run the image with such a configuration that the output is `{empty}`
+* `frt`  --  Run the image with such a configuration that it calculates the number of files in the container's `PWD`
+
+[,properties]
+----
+fst = "docker run --rm ubuntu"
+snd = "docker run --rm ubuntu"
+trd = "docker run --rm ubuntu"
+frt = "docker run --rm ubuntu"
+----
+
+== Mini alpine (30 points)
+
+Subdirectory: `gpine`
+
+You have to create a miniature "alpine-like" image from the `main.go` file
+
+TIP: To build a standalone binary from Go sources, use `CGO_ENABLED=0 GOOS=linux go build -o _OUT_ _FROM_`
+
+The resulting binary implements these utilities:
+
+[,go]
+----
+case "ls":
+    if os.Args[0] != "/usr/bin/ls" {
+        log.Fatal("Invalid placement")
+    }
+    ls()
+case "touch":
+    if os.Args[0] != "/bin/touch" {
+        log.Fatal("Invalid placement")
+    }
+    touch()
+case "gsh":
+    if os.Args[0] != "/usr/bin/gsh" {
+        log.Fatal("Invalid placement")
+    }
+    gsh()
+case "cat":
+    if os.Args[0] != "/usr/local/bin/cat" {
+        log.Fatal("Invalid placement")
+    }
+    cat(os.Args[1])
+default:
+    fmt.Println("GSH Runtime >>")
+    fmt.Printf("Unknown command: %s\n", cmd)
+    fmt.Println("<< GSH Runtime")
+    os.Exit(3)
+----
+
+Where `gsh` is a custom shell. It uses `GPATH` instead of `PATH` with a semicolon as the separator.
+
+`docker run --rm -it gpine:latest` must open a `gsh` session.
+
+IMPORTANT: The image size must be less than 6.5 MB.
+
+== Ping pong (30 points)
+
+Subdirectory: `ping-pong`
+
+You are provided with two servers: `back.go` and `front.go`.
+
+Add a parameterised Dockerfile that can be used to build both servers.
+
+CAUTION: Non-parameterised solutions won't be accepted!
+
+Create two scripts:
+
+* `mkenv.sh` - Creates the environment
+* `rmenv.sh` - Destroys the environment
+
+=== Environment
+
+* Shared network `korea`
+* Volume `hanja`
+* Two containers: `south` & `north`
+
+South::
+The volume must be mounted at `/data`
+
+North::
+The container's `7676` port must be forwarded to the host's `9999` port
+
+
+== Multiplatform image (30 points)
+
+Subdirectory: `multi`
+
+You have to create a multi-platform image from the `main.c` (C/C++ track) or `Main.java` (Java track) file.
+
+The image must support these platforms:
+
+* x86_64
+* arm64
+* PowerPC 64 (Little Endian)
+
+Size limits:
+
+* Java \=> `30MB`
+* C++ \=> `0.5MB`
+
+Upload your image to the GitLab Container Registry.
+The image name is expected to be `YOUR_REPO_FULLNAME:java` or `YOUR_REPO_FULLNAME:cpp` depending on which language you've chosen.
+
+Create a `variant` file which contains either `java` or `cpp` depending on your language.
+
+== Questions
+* What is the difference between `CMD` and `ENTRYPOINT`?
+* How can a pipeline command be executed in a container?
+* What is `scratch`?
+* How can the file duplication be reduced?
+* How can the parameterisation be achieved with Dockerfiles?
+* What are the alternatives to the parameterisation?
+* How can a container be accessed through a network?
+* When are volumes needed?
+* How to build a standalone binary for C/C++ or Java code?
+* How can multi-platform images be built?
+* How can an image be uploaded to a registry?
 
 == Copyright
 
